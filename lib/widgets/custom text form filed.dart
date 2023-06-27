@@ -4,11 +4,18 @@ import 'package:flutter/material.dart';
 class CustomTextFormFiled extends StatelessWidget {
   TextInputType? keyboardType;
   String?text;
-  CustomTextFormFiled({required this.keyboardType,required this.text});
+  Function(String)?onChange;
+  CustomTextFormFiled({ this.onChange, this.keyboardType, this.text, });
 
   @override
   Widget build(BuildContext context) {
     return   TextFormField(
+      validator: (data) {
+        if(data!.isEmpty){
+          return 'field is required';
+        }
+      },
+      onChanged: onChange,
         keyboardType: keyboardType,
         decoration: InputDecoration(
           labelText: text,
