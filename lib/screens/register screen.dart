@@ -1,3 +1,5 @@
+import 'package:chat_app/helper/showsnakebar.dart';
+import 'package:chat_app/screens/chat_screen.dart';
 import 'package:chat_app/widgets/coustomButton.dart';
 import 'package:chat_app/widgets/custom%20text%20form%20filed.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,6 +9,8 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String routeName = 'RegisterScreen';
+
+  const RegisterScreen({super.key});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -34,7 +38,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 80,
                   ),
                   Image.asset("assets/images/scholar.png"),
@@ -45,7 +49,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         fontWeight: FontWeight.bold,
                         color: Colors.white),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 80,
                   ),
                   Row(
@@ -87,6 +91,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           });
                           try {
                             await regesterUser();
+                            Navigator.pushNamed(context, ChatScreen.routeName);
                           } on FirebaseAuthException catch (e) {
                             if (e.code == 'weak-password') {
                               showSnackBar(
@@ -94,9 +99,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             } else if (e.code == 'email-already-in-use') {
                               showSnackBar(context,
                                   'The account already exists for that email.');
-                            }
-                            else {
-                              showSnackBar(context, 'success.');
                             }
                           } catch (e) {
                             print(e);
@@ -132,7 +134,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           )),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 80,
                   ),
                 ],
@@ -144,13 +146,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  void showSnackBar(BuildContext context,String massege) {
-     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-       backgroundColor: Colors.blueGrey,
 
-        content:
-            Text(massege)));
-  }
 
   Future<void> regesterUser() async {
        UserCredential user = await FirebaseAuth.instance
